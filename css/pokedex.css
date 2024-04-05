@@ -125,7 +125,7 @@
   font-size: 1.2rem;
   border-radius: 10rem;
   text-align: center;
-  filter: brightness(1.2);
+  filter: brightness(.9);
 }
 
 .pokemon-box .detail img{
