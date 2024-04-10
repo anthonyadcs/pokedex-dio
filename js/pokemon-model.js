@@ -1,3 +1,4 @@
+//Classe Pokemon, cria o modelo para utilização no DOM
 class Pokemon {
   number;
   name;
