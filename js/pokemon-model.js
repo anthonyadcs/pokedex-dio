@@ -9,6 +9,4 @@ class Pokemon {
   description;
   height;
   weight;
-  gender;
-  category; 
 }
