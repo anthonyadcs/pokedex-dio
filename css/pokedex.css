@@ -163,7 +163,7 @@
   cursor: pointer;
 }
 
-@media screen and (max-width: 380px) {
+@media screen and (max-width: 420px) {
   .pokemon{
     grid-template-columns: 1fr;
     min-width: 190px;
