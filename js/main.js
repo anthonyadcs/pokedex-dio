@@ -1,6 +1,7 @@
 const olPokemon = document.querySelector('.pokemon')
 const loadMoreButton = document.querySelector('#load-more')
 const pokeInfoBox = document.querySelector('.pokemon-info')
+const pokemonListContainer = document.querySelector('.content')
 const limit = 5;
 let offset = 0;
 let pokemonAttributes = [];
@@ -124,6 +125,9 @@ const showPokeInfo = (e) => {
   </div>
 </div>
     `
+    olPokemon.style.webkitFilter = 'blur(5px) grayscale(70%)';
+    olPokemon.style.pointerEvents = 'none';
+    loadMoreButton.style.display = 'none';
     pokeInfoBox.innerHTML = pokeInfoHTML
     pokeInfoBox.style.display = 'flex'
   }
