@@ -2,9 +2,17 @@ const olPokemon = document.querySelector('.pokemon')
 const loadMoreButton = document.querySelector('#load-more')
 const pokeInfoBox = document.querySelector('.pokemon-info')
 const pokemonListContainer = document.querySelector('.content')
+const originalStyles = {
+  webkitFilter: olPokemon.style.webkitFilter,
+  pointerEvents: olPokemon.style.pointerEvents,
+  display: loadMoreButton.style.display,
+  pokeInfoBoxDisplay: pokeInfoBox.style.display
+}
 const limit = 5;
 let offset = 0;
 let pokemonAttributes = [];
+let isPokeInfoVisible = false;
+let counter = 0;
 
 //Função que constrói todas as pokemon-boxs
 function loadPokemonItens(offset, limit){
@@ -36,6 +44,7 @@ function loadPokemonItens(offset, limit){
     const pokeBoxs = document.querySelectorAll('.pokemon-box')
     pokeBoxs.forEach((pokeBox) => {
       pokeBox.addEventListener('click', function(e){
+        e.stopPropagation()
         showPokeInfo(e)
       })
     })
@@ -45,7 +54,7 @@ function loadPokemonItens(offset, limit){
 
 //Função que captura o elemento-pai do elemento enviado.
 function findAncestorWithClass(element, className){
-  let currentElement = element
+  let currentElement = element;
   while (currentElement) {
     if(currentElement.classList.contains(className)){
       return currentElement;
@@ -58,7 +67,8 @@ function findAncestorWithClass(element, className){
 }
 
 //Adiciona um escutador de evento no botão 'Load more', que requisita e adiciona os novos Pokemon a lista
-loadMoreButton.addEventListener('click', () => {
+loadMoreButton.addEventListener('click', (e) => {
+  e.stopPropagation()
   offset += limit
   loadPokemonItens(offset, limit)
   console.log(pokemonAttributes);
@@ -124,13 +134,34 @@ const showPokeInfo = (e) => {
     </ol>
   </div>
 </div>
-    `
-    olPokemon.style.webkitFilter = 'blur(5px) grayscale(70%)';
-    olPokemon.style.pointerEvents = 'none';
-    loadMoreButton.style.display = 'none';
-    pokeInfoBox.innerHTML = pokeInfoHTML
-    pokeInfoBox.style.display = 'flex'
-  }
+    `;
+
+  const infoBox = document.createElement('div')
+  infoBox.classList.add('pokemon-info');
+  infoBox.innerHTML = pokeInfoHTML;
+
+  const blurLayer = document.createElement('div')
+  blurLayer.classList.add('blur-layer')
+
+  document.body.appendChild(blurLayer)
+  document.body.appendChild(infoBox)
+
+}
+
+document.addEventListener('click', function(e){
+    const pokeInfo = document.querySelector('.pokemon-info')
+    const blurLayer = document.querySelector('.blur-layer')
+    const target = e.target;
+    const clickedInPokeInfo = findAncestorWithClass(target, 'pokemon-info');
+    
+    if(clickedInPokeInfo != '<div class="pokemon-info">'){
+      pokeInfo.remove()
+      blurLayer.remove()
+    }
+})
+
+
+
 
 //Primeira chamada da função que carrega a lista de Pokemon
 loadPokemonItens(offset, limit)
